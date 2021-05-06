@@ -4,7 +4,7 @@ Takes the json output from DiMA.
 
 
 Usage:
-```motifswitcher.py -i jsonFileInput -m motif_sites -t int```
+```MoSwA.py -i jsonFileInput -m motif_sites -t int```
 
 Accepted arguments for -m: index,major,minor,unique (default is all), -t is the support threshold to be analyzed
 
