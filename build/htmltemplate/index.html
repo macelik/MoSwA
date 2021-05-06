@@ -1,0 +1,50 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="tr">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1254">
+<title>MOTIF SWITCH ANALYZER</title>
+</head>
+
+<body>
+
+<p align="center"><font size="6">MOTIF SWITCH ANALYZER</font></p>
+<p align="center"><font size="6">Short Summary</font></p>
+<p align="justify"><font size="4">Your input alignment length is 
+alignment_length! a.a with the highest support of longest_support! for a given 
+position. The average number of sequences for a given kmer position is 
+average!. The number of positions that has no support (absence of kmer without 
+indel gaps) is len_no_sup! and the number of positions that has low support len_low_sup! based on the threshold 
+!thold! you submitted. There are 
+uniqueswitches! number of unique switches out of totalswitches!</font></p>
+<p align="justify"><font size="4">The number of switches found in index is 
+len_indexes!, major is len_majors!, minor is len_minors!, and unique is len_uniques!.</font></p>
+<p align="justify"><font size="4">Positions that MoSwA was not able to analyze: 
+!UnableToAnalyze</font></p>
+<p align="justify"><font size="4">All the raw files stored in json files 
+(index.json, major.json, minor.json and unique.json), files with appendix 
+&quot;_filtered&quot; includes positions that has switches. </font></p>
+<p align="justify"><font size="4">Below is the output.fasta (clustalw 
+format).......</font></p>
+<p align="justify"><font size="4">asterix(*) indicates motif switch, and 
+colon(:) indicates motif switch but has low support. </font></p>
+
+<object width="1035" height="374" type="text/plain" data="output.fasta" border="0" >
+</object>
+
+<p><font size="5"><b>PLOT OF MOTIF SWITCH POSITIONS</b></font></p>
+<embed type="text/html" src="Motif_Plots.html" width="1049" height="603">
+<p align="left"><b><font size="5">Cluster &amp; Hotspots Plot</font></b></p>
+<p align="left"><font size="4">Cmsp; is the number of positions that make up a 
+cluster while Cs is the cluster size. Cd is the distance between clusters, The 
+starting and ending positions that make up the cluster shown in square brackets 
+as [start::end]. Red square brackets point out to motif switch hotspots. </font>
+</p>
+<p align="left">&nbsp;</p>
+<p align="left">
+<img border="0" src="image2.png" width="1049" height="603"></p>
+<p align="left">&nbsp;</p>
+
+</body>
+
+</html>
