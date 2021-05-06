@@ -77,7 +77,7 @@ unique_switches                     T*NRDTWG***CLPDN**Y*EI***V*EAFDAW**TVTEQA*ED
 ### Plotting Motif Switches
 
 After identifying motif swithces, the question becomes, what motif replaced the it? We indetify these too and plot them dynamically.
-[Please go to the link to view the example dynamic plot](/showface/plotly.html)
+[Please go to the link to view the example dynamic plot](/showface/Dynamic_Plot.html)
 
 
 
