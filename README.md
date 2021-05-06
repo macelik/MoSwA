@@ -1,6 +1,6 @@
 # Motif Switch Analyzer
 
-Takes the json output from Hunana.
+Takes the json output from DiMA.
 
 
 Usage:
