@@ -8,8 +8,10 @@ Usage:
 
 Accepted arguments for -m: index,major,minor,unique (default is all), -t is the support threshold to be analyzed
 -k default is 9 for Kmer Length
+
 A summary report is produced at the end.
-Image.png and Output.fasta must be in the same directory with the report.
+
+All the outputs can be found in the created directory.
 
 
 ## Documentation
