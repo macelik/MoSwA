@@ -22,7 +22,7 @@ def write_report(average,
 
     replacements = {'alignment_length!':str(alignment_length), 'longest_support!':str(highest),
                 'average!':str(average), 'len_no_sup!':str(len(no_sup)),'len_low_sup!':str(len(low_sup)),
-                '!thold!':str(100),'uniqueswitches!':str(len(common_pos)),'len_indexes!':str(lengthofswitches['Index']),
+                '!thold!':str(thold),'uniqueswitches!':str(len(common_pos)),'len_indexes!':str(lengthofswitches['Index']),
                 'len_majors!':str(lengthofswitches['Major']),'len_minors!':str(lengthofswitches['Minor']),
                 'len_uniques!':str(lengthofswitches['Unique']),'totalswitches!':str(summed),
                  '!UnableToAnalyze':'/'.join(map(str,unable_to_analyze))}
