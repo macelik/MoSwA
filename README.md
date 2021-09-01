@@ -4,10 +4,10 @@ Takes the json output from DiMA.
 
 
 Usage:
-```MoSwA.py -i jsonFileInput -m motif_sites -t int```
+```MoSwA.py -i AlignedFasta -m motif_sites -t int -k int -o OutFolderName```
 
 Accepted arguments for -m: index,major,minor,unique (default is all), -t is the support threshold to be analyzed
-
+-k default is 9 for Kmer Length
 A summary report is produced at the end.
 Image.png and Output.fasta must be in the same directory with the report.
 
