@@ -1,6 +1,7 @@
 import os
 
 def write_report(average,
+                thold,
                 no_sup,
                 low_sup,
                 common_pos,
