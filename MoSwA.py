@@ -131,5 +131,5 @@ data = NetworkPlot.plotly_info(s_edges,s_nodes)
 NetworkPlot.out_plotly(data,path)
 NetworkPlot.fix_html(path)
 alignment_length=len(analyse.results)+dima_kmer-1
-report.write_report(average,no_sup,low_sup,common_pos,lengthofswitches,unable_to_analyze,alignment_length,highest,path)
+report.write_report(average,thold,no_sup,low_sup,common_pos,lengthofswitches,unable_to_analyze,alignment_length,highest,path)
 align,fix_align = align.align_i(analyse,Filtered_Indexes,indextomajor,indextominor,indextounique,majortoindex,minortoindex,uniquetoindex,igain,path)
