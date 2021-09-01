@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from argparse import ArgumentParser
 from build import RunAndCompare,SplitsMergers,BuildConsensus,Clustering,PlotHotClusters
 from build import NetworkPlot,report,align
