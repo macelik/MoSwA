@@ -89,9 +89,9 @@ common_pos,lengthofswitches,Raw_Indexes,Filtered_Indexes,Raw_Majors,Filtered_Maj
 common_pos.sort()
 SplitsMergers.analyse = analyse
 indexloss,indextomajor,indextominor,indextounique = SplitsMergers.analyze_index(Raw_Indexes)
-majorloss,majortoindex,majortominor,majortounique = SplitsMergers.analyze_index(Raw_Majors)
-minorloss,minortoindex,minortomajor,minortounique = SplitsMergers.analyze_index(Raw_Minors)
-uniqueloss,uniquetoindex,uniquetomajor,uniquetominor = SplitsMergers.analyze_index(Raw_Uniques)
+majorloss,majortoindex,majortominor,majortounique = SplitsMergers.analyze_majors(Raw_Majors)
+minorloss,minortoindex,minortomajor,minortounique = SplitsMergers.analyze_minors(Raw_Minors)
+uniqueloss,uniquetoindex,uniquetomajor,uniquetominor = SplitsMergers.analyze_uniques(Raw_Uniques)
 mtoi,mitoi,utoi,merge_mtoi,merge_mitoi,merge_utoi = SplitsMergers.i_splits_mergers(Filtered_Indexes,Raw_Indexes,Raw_Majors,Raw_Minors,majortoindex,minortoindex,uniquetoindex)
 igain = SplitsMergers.gain('Index')
 mgain = SplitsMergers.gain('Major')
