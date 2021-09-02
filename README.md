@@ -13,7 +13,14 @@ A summary report is produced at the end.
 
 All the outputs can be found in the created directory.
 
+### Installing Pygraphviz on Windows
+1- Download and install 2.46.0 for Windows 10 (64-bit): 
+[stable_windows_10_cmake_Release_x64_graphviz-install-2.46.0-win64.exe.](https://gitlab.com/graphviz/graphviz/-/package_files/6164164/download)
 
+2- Install PyGraphviz via
+```
+python -m pip install --global-option=build_ext --global-option="-IC:\Program Files\Graphviz\include" --global-option="-LC:\Program Files\Graphviz\lib" pygraphviz
+```
 ## Documentation
 
   Takes the input of AVANA or HUNANA, first strip down the json file to simplify it in order to hold less storage.
