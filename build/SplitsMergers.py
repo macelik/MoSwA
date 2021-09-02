@@ -69,7 +69,7 @@ def analyze_uniques(Raw_Results):
     uniquetomajor=[]
     uniquetominor=[]
     for i in range (0,len(analyse.results)):
-        t=check_raw('Unique',i)
+        t=check_raw(Raw_Results,i)
 
         if any(not d['hits'] for d in t):
             uniqueloss.append(i+1)
