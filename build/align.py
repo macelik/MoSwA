@@ -76,9 +76,9 @@ def align_i(analyse,
             tag = ''
             if x in igain:
                 tag='Gain'
-            elif x in majortoindex:
+            elif x in majortoindex or x in merge_mtoi:
                 tag='Major'
-            elif x in minortoindex:
+            elif x in minortoindex or x in merge_mitoi:
                 tag='Minor'
             elif x in uniquetoindex:
                 tag='Uniqe'
