@@ -5,7 +5,9 @@ from Bio.Align.substitution_matrices import load as ld
 def align_i(analyse,
         Filtered_Indexes,
         indextomajor,
+        merge_mtoi,
         indextominor,
+        merge_mitoi,
         indextounique,
         majortoindex,
         minortoindex,
@@ -70,10 +72,19 @@ def align_i(analyse,
 
     with open(os.path.join(path, "IndexSwitchAlignment.csv"), "w") as csv_file:
         csvwriter = csv.writer(csv_file)
-        csvwriter.writerow(['Position', 'Index', 'Motif', 'Score'])
+        csvwriter.writerow(['Position', 'Current Index', 'Motif', 'Score','Support','Index %','Major %','Minor %','Unique %'])
 
         for x in fix_align:
             tag = ''
+            pos_sup=analyse.results[x-1].support
+            index_p=list(analyse.get_index('Index',x-1).values())[0][1]*len(analyse.get_index('Index',x-1))
+            major_p=list(analyse.get_index('Major',x-1).values())[0][1]*len(analyse.get_index('Major',x-1))
+            uniq_p=len(analyse.get_index('Unique',x-1))
+            minor_p=pos_sup-(index_p+major_p+uniq_p)
+            index_p=round(index_p/pos_sup*100)
+            major_p=round(major_p/pos_sup*100)
+            minor_p=round(minor_p/pos_sup*100)
+            uniq_p=round(uniq_p/pos_sup*100)
             if x in igain:
                 tag='Gain'
             elif x in majortoindex or x in merge_mtoi:
@@ -82,6 +93,6 @@ def align_i(analyse,
                 tag='Minor'
             elif x in uniquetoindex:
                 tag='Uniqe'
-            csvwriter.writerow([x, fix_align[x]['Index']+' ({})'.format(tag),fix_align[x][list(fix_align[x])[1]]+' ({})'.format(list(fix_align[x])[1]), fix_align[x]['score']])
+            csvwriter.writerow([x, fix_align[x]['Index']+' ({})'.format(tag),fix_align[x][list(fix_align[x])[1]]+' ({})'.format(list(fix_align[x])[1]), fix_align[x]['score'],pos_sup,index_p,major_p,minor_p,uniq_p])
 
     return align,fix_align
