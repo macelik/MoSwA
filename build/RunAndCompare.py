@@ -6,7 +6,7 @@ class GetMotifs():
     
     def __init__(self,fname,dima_kmer):
         print('Dima is running')
-        self.results = Dima(sequences=fname, sequences_source="file",kmer_length=dima_kmer).run().results
+        self.results = Dima(sequences=fname, kmer_length=dima_kmer).run().results
         print('Dima is done')
     def get_index(self, motif, position):
 

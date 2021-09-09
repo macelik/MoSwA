@@ -41,16 +41,17 @@ def align_i(analyse,
     for x in indextounique:
         pos=x
         tag=list(Filtered_Indexes[x].values())[3].split(" ")[-1]
-        seq1=list(analyse.get_index('Index',x-1).keys())[0][0]
-        for i in list(analyse.get_index('Unique',x-1).keys()):
-            if i[1] == tag:
-                seq2 = i[0]
-                align[x]={'Index':seq1,str(tag):seq2}
-                a=align[x]['Index']
-                b=align[x][str(tag)]
+        if analyse.get_index('Index',x-1):
+            seq1=list(analyse.get_index('Index',x-1).keys())[0][0]
+            for i in list(analyse.get_index('Unique',x-1).keys()):
+                if i[1] == tag:
+                    seq2 = i[0]
+                    align[x]={'Index':seq1,str(tag):seq2}
+                    a=align[x]['Index']
+                    b=align[x][str(tag)]
 
-                alns = pairwise2.align.globalds(a, b, matrix, gap_open, gap_extend)
-                align[x]['score']=alns[0][2]
+                    alns = pairwise2.align.globalds(a, b, matrix, gap_open, gap_extend)
+                    align[x]['score']=alns[0][2]
     align=dict(sorted(align.items()))
 
     fix_align={}
