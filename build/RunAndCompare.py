@@ -48,6 +48,7 @@ class Compare():
         
     def search(self,analyse):
         for x in range(0, len(analyse.results)-1):
+            self.key_value = dict()
             a,b=analyse.get_index(self.tag, x),analyse.get_index('Index', x+1)
             com2(a,b,self.d,self.key_value,self.kmer)
 
