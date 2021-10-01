@@ -78,7 +78,10 @@ def align_i(analyse,
             tag = ''
             pos_sup=analyse.results[x-1].support
             index_p=list(analyse.get_index('Index',x-1).values())[0][1]*len(analyse.get_index('Index',x-1))
-            major_p=list(analyse.get_index('Major',x-1).values())[0][1]*len(analyse.get_index('Major',x-1))
+            if len(analyse.get_index('Major',x-1)) == 0:
+                major_p=0
+            else:
+                major_p=list(analyse.get_index('Major',x-1).values())[0][1]*len(analyse.get_index('Major',x-1))
             uniq_p=len(analyse.get_index('Unique',x-1))
             minor_p=pos_sup-(index_p+major_p+uniq_p)
             index_p=round(index_p/pos_sup*100)
