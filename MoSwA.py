@@ -147,6 +147,6 @@ if "minor" not in which:
 if "unique" not in which:
     del vis['MoSwa_Output']['Report']['Results']['Unique_Motifs']
 
-f = open(os.path.join(path, "Web_Server_Data.json"),'w')
+f = open(os.path.join(path, "Results.json"),'w')
 json.dump(vis,f)
 f.close()
