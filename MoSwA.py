@@ -2,7 +2,7 @@
 from argparse import ArgumentParser
 from build import RunAndCompare,SplitsMergers,BuildConsensus,Clustering,PlotHotClusters
 from build import NetworkPlot,report,align
-import os,random
+import os,random,json
 
 def is_valid_file(parser, arg):
     if not os.path.isfile(arg):
@@ -88,22 +88,25 @@ analyse = RunAndCompare.GetMotifs(fname,dima_kmer)
 common_pos,lengthofswitches,Raw_Indexes,Filtered_Indexes,Raw_Majors,Filtered_Majors,Raw_Minors,Filtered_Minors,Raw_Uniques,Filtered_Uniques=RunAndCompare.runit(which,dima_kmer,analyse)
 common_pos.sort()
 SplitsMergers.analyse = analyse
-indexloss,indextomajor,indextominor,indextounique = SplitsMergers.analyze_index(Raw_Indexes)
-majorloss,majortoindex,majortominor,majortounique = SplitsMergers.analyze_majors(Raw_Majors)
-minorloss,minortoindex,minortomajor,minortounique = SplitsMergers.analyze_minors(Raw_Minors)
-uniqueloss,uniquetoindex,uniquetomajor,uniquetominor = SplitsMergers.analyze_uniques(Raw_Uniques)
-mtoi,mitoi,utoi,merge_mtoi,merge_mitoi,merge_utoi = SplitsMergers.i_splits_mergers(Filtered_Indexes,Raw_Indexes,Raw_Majors,Raw_Minors,majortoindex,minortoindex,uniquetoindex)
-igain = SplitsMergers.gain('Index')
-mgain = SplitsMergers.gain('Major')
-split_itom,itom,mitom,merge_mitom,utom,merge_utom = SplitsMergers.m_splits_mergers(Filtered_Majors,
+vis=SplitsMergers.view_json()
+indexloss,indextomajor,indextominor,indextounique,vis = SplitsMergers.analyze_index(Raw_Indexes,vis)
+majorloss,majortoindex,majortominor,majortounique,vis = SplitsMergers.analyze_majors(Raw_Majors,vis)
+minorloss,minortoindex,minortomajor,minortounique,vis = SplitsMergers.analyze_minors(Raw_Minors,vis)
+uniqueloss,uniquetoindex,uniquetomajor,uniquetominor,vis = SplitsMergers.analyze_uniques(Raw_Uniques,vis)
+mtoi,mitoi,utoi,merge_mtoi,merge_mitoi,merge_utoi,vis = SplitsMergers.i_splits_mergers(Filtered_Indexes,Raw_Indexes,Raw_Majors,Raw_Minors,Raw_Uniques,majortoindex,minortoindex,uniquetoindex,vis)
+igain,vis = SplitsMergers.gain('Index',vis,Raw_Indexes,Raw_Majors)
+mgain,vis = SplitsMergers.gain('Major',vis,Raw_Indexes,Raw_Majors)
+split_itom,itom,mitom,merge_mitom,utom,merge_utom,vis = SplitsMergers.m_splits_mergers(Filtered_Majors,
                                                                                     Raw_Majors,
                                                                                     Raw_Indexes,
                                                                                     Raw_Minors,
+                                                                                    Raw_Uniques,
                                                                                     indextomajor,
                                                                                     minortomajor,
-                                                                                    uniquetomajor)
-split_itomi,split_mtomi,mtomi,utomi,merge_utomi,migain = SplitsMergers.mi_splits_mergers(analyse,indextominor,majortominor,uniquetominor)
-split_itou,split_mtou,split_mitou,ugain = SplitsMergers.u_splits_mergers(analyse,indextounique,majortounique,minortounique)
+                                                                                    uniquetomajor,
+                                                                                    vis)
+split_itomi,split_mtomi,mtomi,utomi,merge_utomi,migain,vis = SplitsMergers.mi_splits_mergers(analyse,indextominor,majortominor,uniquetominor,Raw_Indexes,Raw_Majors,Raw_Minors,Raw_Uniques,vis)
+split_itou,split_mtou,split_mitou,ugain,vis = SplitsMergers.u_splits_mergers(analyse,indextounique,majortounique,minortounique,Raw_Indexes,Raw_Majors,Raw_Minors,Raw_Uniques,vis)
 to_build,no_sup,low_sup,highest,average = BuildConsensus.building_index(analyse,thold,dima_kmer)
 cons = BuildConsensus.ConsensusInput.parse_consensus_input(to_build)
 cons = BuildConsensus.calculate_consensus(consensus_input=cons)
@@ -131,5 +134,19 @@ data = NetworkPlot.plotly_info(s_edges,s_nodes)
 NetworkPlot.out_plotly(data,path)
 NetworkPlot.fix_html(path)
 alignment_length=len(analyse.results)+dima_kmer-1
-report.write_report(average,thold,no_sup,low_sup,common_pos,lengthofswitches,unable_to_analyze,alignment_length,highest,path)
-align,fix_align = align.align_i(analyse,Filtered_Indexes,indextomajor,merge_mtoi,indextominor,merge_mitoi,indextounique,majortoindex,minortoindex,uniquetoindex,igain,path)
+summed=report.write_report(average,thold,no_sup,low_sup,common_pos,lengthofswitches,unable_to_analyze,alignment_length,highest,path)
+vis=report.report_json(average,thold,no_sup,low_sup,common_pos,lengthofswitches,unable_to_analyze,alignment_length,highest,summed,dima_kmer,vis)
+align,fix_align,vis = align.align_i(analyse,Filtered_Indexes,indextomajor,merge_mtoi,indextominor,merge_mitoi,indextounique,majortoindex,minortoindex,uniquetoindex,igain,vis,path)
+
+if "index" not in which:
+    del vis['MoSwa_Output']['Report']['Results']['Index_Motifs']
+if "major" not in which:
+    del vis['MoSwa_Output']['Report']['Results']['Major_Motifs']
+if "minor" not in which:
+    del vis['MoSwa_Output']['Report']['Results']['Minor_Motifs']
+if "unique" not in which:
+    del vis['MoSwa_Output']['Report']['Results']['Unique_Motifs']
+
+f = open(os.path.join(path, "Web_Server_Data.json"),'w')
+json.dump(vis,f)
+f.close()

@@ -150,7 +150,7 @@ def runit(which,dima_kmer,analyse):
             globals()[title[x][0]].search(analyse)
             globals()[title[x][1]]=globals()[title[x][0]].tag_motifs()
             globals()[title[x][2]]=globals()[title[x][0]].filter_motifs()
-            write_output(x,globals()[title[x][1]],globals()[title[x][2]])
+            #write_output(x,globals()[title[x][1]],globals()[title[x][2]])
             lengthofswitches[x]=len(globals()[title[x][2]])
             common_pos.extend(globals()[title[x][2]].keys())
         else:
