@@ -38,6 +38,7 @@ The input to MoSwA is a protein multiple sequence alignment. The user can choose
 ### Sample Output
 
 ![Cluster_and_Hotspots](/showface/Allin1.PNG)
+
 Figure 1: Selected features of MoSwA. A) A short statistical summary on the switches observed. B) A bar plot showing clusters of motif switch positions, as well as hotspots in the protein alignment. C) A network graph showing the dynamic interaction between the motif switches.
 
 
