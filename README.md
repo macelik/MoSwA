@@ -22,70 +22,27 @@ All the outputs can be found in the created directory.
 python -m pip install --global-option=build_ext --global-option="-IC:\Program Files\Graphviz\include" --global-option="-LC:\Program Files\Graphviz\lib" pygraphviz
 ```
 ## Documentation
-
-  Takes the input of AVANA or HUNANA, first strip down the json file to simplify it in order to hold less storage.
-  A given position has one Index and Major but might have more than one Minor and Unique. Thus number tags are needed for these motifs. We tag them with an incrementing number, the one with the highest frequency will be tagged as Minor_1 and randomly for Unique since Unique motifs have frequency of only 1.
-
-### Find overlapping motifs
-  Then we seperate the specific motifs at a given position which allows us to compare seqs, tags, counts and positions. We drop the first amino acid in the preceding position while dropping the last amino acid in the next position, Each motif in the preceding position treated seperately and compared to everything in the next position. The output is procudes for each motif in a JSON format to the user.
-
-### Identify motif changes
-
-  If a motif tag of index and major of a current position is not found in the next position with the same seq, we mark it as a motif switch. However for minor motifs, we not only check the sequence and the tag but also frequency.  To tag a minor as a motif switch there has to be tag and count difference since minor tag can change but frequency and seq might stay the same. or it has to come out out of minor tag then regardless of the count, we identify it as a switch.
-
-  Later, these indentified motif switch positions are filtered and given to the user as a JSON file which includes preciding position and next position, seqs, frequencies and motifs that are switched.
-
-
-### Concataneting A Consensus Sequence from The Index:
-
-  A reverse sliding (k-mer size of the motif-1) window approach was utilized to identify overlapping amino acid at a position. To identify a consensus amino acid at a position, indicies of preciding k-mer positions are taken with their frequencies. The amino acid with the highest frequency is determined as consensus a.a at that position. If overlapping a.a for that position is %100, shown as capital letter otherwise shown as small letter.
-```
-          ^
-          |
-  GLTGTTTVT			pos=178
-   LTGTTTVTP
-    NGTNGTNQE
-     GTNGTNQER
-      TNGTNQERT
-       NGTNQERTN
-        GTNQERTNT
-         TNQERTNTT
-          NQERTNTTN	pos=170
-
-```
-
-Along with built index consensus, we also show the motif changes in a Clustalw format as below.
-Asterix(*) indicates motif switch, while colon(:) indicates motif switch position with a low support value.
+Protein sequence diversity is one of the major challenges in the design of diagnostic, prophylactic and therapeutic interventions against viruses. Shannon’s entropy has been
+used as a quantitative measure of protein sequence diversity, applied via a user-defined k-mer sliding window [1, 2]. The entropy value of a given k-mer position in a sequence
+alignment is affected by the total number of distinct k-mer peptides observed at the position and their relative frequency, with a high entropy value indicating diversity,
+whereas an entropy of zero indicates complete conservation. Studies [3, 4] have classified distinct k-mer peptides at a given position into diversity motifs (index, major, minor, unique and k-mer_types) based on their incidence (i.e., frequency). Index is the predominant sequence, and all others comprise as total variants, sub-classified into major variant (the predominant variant), minor variants (comprising of k-mers with incidence lower than major and higher than unique) and unique variants (k-mers seen only once in the alignment). These diversity motifs enable diversity dynamics analyses of virus proteins within and between species. Motif switching at a given k-mer alignment position is a phenomenon where fitness change in one or more amino acids, such as through mutations, changes the incidence of a given k-mer sequence across its overlapping positions, resulting in a sequence rank change, and thus, a motif change. This has been observed to occur for all the motifs (index, major, minor or unique). Identifying k-mer positions that exhibited a motif switch and determining the nature of the switches was a challenge given the large combination of switches that are possible and their omnipresence. Herein, we present MoSwA (Motif Switch Analyzer; https://github.com/macelik/MoSwA), a tool that not only identifies all alignment k-mer positions that exhibit motif switching, but also provides a multi-faceted and extensive characterisation of the switches. This includes:
+-	a short statistical summary on the switches observed;
+-	an alignment view of all the switches observed in a given dataset, referenced against a consensus sequence built from the index sequences of the k-mer positions;
+-	a network graph showing the dynamic interaction between the motif switches;
+-	a bar plot showing clusters of motif switch positions, as well as hotspots in the protein alignment;
+-	index switch positions are noteworthy and highlighted because highly conserved index at such positions are possibly to be avoided as vaccine targets given the instability of the index;
+-	a pairwise alignment score based on PAM30 is provided for index switches, to determine the physico-chemical spectrum of similarity/variability between the index sequence and the replacing variant motif sequence. 
+The input to MoSwA is a protein multiple sequence alignment. The user can choose to study a single, multiple or all diversity motifs. MoSwA now enables a comparative analyses of motif switches within and between viral species proteomes. This can help provide a better understanding of motif switches in relation to viral sequence diversity and evolution, with implications to vaccine and drug design.
 
 
+### Sample Output
 
-```
-index_consensus                     MAYSSSRLLIALLLiSiygivcatkpkrqyvtvfYGIPAWRNASIPLFCA
-index_switches                      MAYSSSRLLIALL*iSiy:ivcatkpkrqyvtvfYGIPAWRNASIPLFCA
-major_switches                      ***S**R*L**L**iSiygivcatkpkr****vfYGIP*W*NASIPLFCA
-minor_switches                      **************iSiygivcatkpkr****vf***P*W*N*S*PLFCA
-unique_switches                     MA****RLL**L**iSiygivcatkpkr*yv*vfYGIP*W*NA*IPL*CA
-
-index_consensus                     TKNRDTWGTIQCLPDNDDYQEIALNVTEAFDAWdNTVTEQAVEDVWSLFE
-index_switches                      TKNRDTWGTIQCLPDNDDYQEIALN**EAFDAWdNTVTEQAVEDVWSLFE
-major_switches                      TKNRDTWGTIQCL*DND**QEI*L***EAFDAWdNTVTEQAVEDVW*LFE
-minor_switches                      T*NRDTW*T**CL**N****E***N*TEAFDA**N**TEQA**DVW*LFE
-unique_switches                     T*NRDTWG***CLPDN**Y*EI***V*EAFDAW**TVTEQA*EDV*SLFE
-```
-
-### Clusters and Hotspots
-
-  Unique motif switch positions are taken to indetify clusters. We check the distances between kmers to form a cluster, distance is determined by subtraction of preciding and next position. If distance is equal or less than k-mer motif size, the positions are placed in the same cluster. Another criteria to form a cluster is that a cluster must have more than the minimum number of switch kmers (5).
-
-  To form hotspot, the clusters must be within a certain distance and there has to be at least 2 clusters.
-  Cmsp; is the number of positions that make up a cluster while Cs is the cluster size. Cd is the distance between clusters, The starting and ending positions that make up the cluster shown in square brackets as [start::end]. Red square brackets point out to motif switch hotspots.
-
-  ![Cluster_and_Hotspots](/showface/clusters_hotpost.png)
+![Cluster_and_Hotspots](/showface/clusters_hotpost.png)
+Figure 1: Selected features of MoSwA. A) A short statistical summary on the switches observed. B) A bar plot showing clusters of motif switch positions, as well as hotspots in the protein alignment. C) A network graph showing the dynamic interaction between the motif switches.
 
 
-### Plotting Motif Switches
+### Sample of dynamic network dot plot
 
-After identifying motif swithces, the question becomes, what motif replaced the it? We indetify these too and plot them dynamically.
 [Please go to the link to view the example dynamic plot](/showface/Dynamic_Plot.html)
 
 
