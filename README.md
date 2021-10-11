@@ -1,6 +1,6 @@
 # Motif Switch Analyzer
 
-Takes the json output from DiMA.
+Takes the multiple sequence alignment of proteins.
 
 
 Usage:
