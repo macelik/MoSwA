@@ -1,6 +1,6 @@
 # Motif Switch Analyzer
 
-Takes the multiple sequence alignment of proteins.
+Takes the multiple sequence alignment of proteins, in fasta, fa, or afa format.
 
 
 Usage:
