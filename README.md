@@ -1,4 +1,8 @@
-# Motif Switch Analyzer
+
+## Detailed Documentation
+Please visit the [MoSwA](https://moswadocs.readthedocs.io/) documentation for detailed instructions how to use and interpret the results.
+
+## Motif Switch Analyzer
 
 Takes the multiple sequence alignment of proteins, in fasta, fa, or afa format.
 
