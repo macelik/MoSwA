@@ -13,6 +13,7 @@ def align_i(analyse,
         minortoindex,
         uniquetoindex,
         igain,
+        vis,
         path):
     matrix = ld(("PAM30"))
     gap_open = -10
@@ -70,9 +71,9 @@ def align_i(analyse,
                 b +=y
         fix_align[pos]={'Index':a,list(align[pos].keys())[1]:b,'score':align[pos]['score'] }
 
-    with open(os.path.join(path, "IndexSwitchAlignment.csv"), "w") as csv_file:
+    with open(os.path.join(path, "PairwiseScores.csv"), "w") as csv_file:
         csvwriter = csv.writer(csv_file)
-        csvwriter.writerow(['Position', 'Current Index', 'Motif', 'Score','Support','Index %','Major %','Minor %','Unique %'])
+        csvwriter.writerow(['Position', 'Current Index', 'Preceding Index', 'Score','Support','Index %','Major %','Minor %','Unique %'])
 
         for x in fix_align:
             tag = ''
@@ -97,5 +98,19 @@ def align_i(analyse,
             elif x in uniquetoindex:
                 tag='Uniqe'
             csvwriter.writerow([x, fix_align[x]['Index']+' ({})'.format(tag),fix_align[x][list(fix_align[x])[1]]+' ({})'.format(list(fix_align[x])[1]), fix_align[x]['score'],pos_sup,index_p,major_p,minor_p,uniq_p])
+            a={
+            "Index_replaced_with":tag,
+            "Index_switched_to":list(fix_align[x])[1],
+            "Current_Index":fix_align[x]['Index'],
+            "Current_"+str(list(fix_align[x])[1]):fix_align[x][list(fix_align[x])[1]],
+            "Score_PAM30":fix_align[x]['score'],
+            "Support":pos_sup,
+            "Index_%":index_p,
+            "Major_%":major_p,
+            "Minor_%":minor_p,
+            "Unique_%":uniq_p}
+            vis['MoSwa_Output']['Report']['PairWise_Alignments'][x]="Null"
+            vis['MoSwa_Output']['Report']['PairWise_Alignments'][x]=a
+            #print(fix_align)
 
-    return align,fix_align
+    return align,fix_align,vis

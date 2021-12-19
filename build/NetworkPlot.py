@@ -7,7 +7,7 @@ import plotly.graph_objs as go
 import plotly.express as px
 from plotly.offline import download_plotlyjs, init_notebook_mode, iplot
 
-fr={'I => M': 'M => I', 'I => Mi': 'Mi => I', 'I => U': 'U => I', 'I => +': 'I => -', 'M => Mi': 'Mi => M', 'M => U': 'U => M', 'M => +': 'M => -', 'Mi => U': 'U => Mi', 'Mi => +': 'Mi => -', 'U => +': 'U => -'}
+fr={'I => M': 'M => I', 'I => Mi': 'Mi => I', 'I => U': 'U => I', 'I => -': 'I => +', 'M => Mi': 'Mi => M', 'M => U': 'U => M', 'M => -': 'M => +', 'Mi => U': 'U => Mi', 'Mi => -': 'Mi => +', 'U => -': 'U => +'}
 legend_d={'I => M': 'g1', 'M => I': 'g2', 'I => Mi': 'g3', 'Mi => I': 'g4', 'I => U': 'g5', 'U => I': 'g6', 'I => +': 'g7', 'I => -': 'g8', 'M => Mi': 'g9', 'Mi => M': 'g10', 'M => U': 'g11', 'U => M': 'g12', 'M => +': 'g13', 'M => -': 'g14', 'Mi => U': 'g15', 'U => Mi': 'g16', 'Mi => +': 'g17', 'Mi => -': 'g18', 'U => +': 'g19', 'U => -': 'g20'}
 
 def check_arg(dict1,which):
